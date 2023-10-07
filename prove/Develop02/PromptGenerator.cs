@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 
+// PromptGenerator class to generate writing prompts
 public class PromptGenerator
 {
     private List<string> prompts = new List<string>

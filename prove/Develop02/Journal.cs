@@ -2,19 +2,18 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 
+// Journal class to manage journal entries
 public class Journal
 {
-    private List<Entry> entries = new List<Entry>();
+   private List<Entry> entries = new List<Entry>();
 
-    public void AddEntry(string entryContent)
+    public void AddEntry(string entryContent, string response)
     {
-        Entry entry = new Entry(entryContent);
-        entries.Add(entry);
+        entries.Add(new Entry(entryContent, response));
     }
 
     public void DisplayEntries()
     {
-        Console.WriteLine("Journal Entries:");
         foreach (var entry in entries)
         {
             entry.DisplayContent();
@@ -27,7 +26,7 @@ public class Journal
         {
             foreach (var entry in entries)
             {
-                writer.WriteLine(entry.Content);
+                writer.WriteLine($"{entry.Content}|{entry.Response}");
             }
         }
         Console.WriteLine("Journal saved to file.");
@@ -42,12 +41,18 @@ public class Journal
             {
                 while (!reader.EndOfStream)
                 {
-                    string entryContent = reader.ReadLine();
-                    AddEntry(entryContent);
+                    string line = reader.ReadLine();
+                    string[] parts = line.Split('|');
+                    if (parts.Length == 2)
+                    {
+                        string entryContent = parts[0];
+                        string response = parts[1];
+                        AddEntry(entryContent, response);
+                    }
                 }
             }
-            Console.WriteLine("Journal loaded from file.");
-            DisplayEntries(); // Display the loaded entries
+            Console.WriteLine("Journal loaded from file:");
+            DisplayEntries();
         }
         else
         {
