@@ -1,52 +1,40 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics; // Add this using directive for Stopwatch
 using System.Linq;
-using System.IO;
+
 class Program
 {
-    static void Main()
+    static void Main(string[] args)
     {
-        ScriptureLibrary library = new ScriptureLibrary();
-        // Add your scriptures to the library here.
-        LoadScripturesFromFile("scriptures.txt", library);
+        var scriptureText = "For God so loved the world that he gave his one and only Son, that whoever believes in him shall not perish but have eternal life.";
+        var scriptureReference = new Reference("John", 3, 16); // Single verse example
+        // For verse range: var scriptureReference = new Reference("Proverbs", 3, 5, 6);
 
-        Console.WriteLine("Welcome to the Scripture Memorizer!");
-        Console.WriteLine("Press Enter to get a random scripture or type 'quit' to exit.");
+        var scripture = new Scripture(scriptureReference, scriptureText);
 
-        while (true)
+        Console.WriteLine("Scripture Passage: " + scripture.GetVisibleText());
+        Console.WriteLine("\nWelcome to the Scripture Memorizer!");
+        Console.WriteLine("Press Enter to hide a few words or type 'quit' to exit.");
+
+        var stopwatch = new Stopwatch();
+        stopwatch.Start(); // Start the timer
+
+        while (!scripture.AllWordsHidden())
         {
-            string input = Console.ReadLine();
+            var input = Console.ReadLine();
             if (input.ToLower() == "quit")
                 break;
 
-            Scripture selectedScripture = library.GetRandomScripture();
+            scripture.HideRandomWord();
+            Console.Clear();
+            Console.WriteLine("Scripture Passage: " + scripture.GetVisibleText());
+            Console.WriteLine("\nPress Enter to hide a few words or type 'quit' to exit.");
+        }
 
-            if (selectedScripture != null)
-            {
-                Console.WriteLine($"Selected Scripture: {selectedScripture.Reference}");
-                Console.WriteLine(selectedScripture.Text);
-                Console.WriteLine("Press Enter to continue.");
-                Console.ReadLine();
-            }
-        }
-    }
-    
-    static void LoadScripturesFromFile(string filePath, ScriptureLibrary library)
-    {
-        if (File.Exists(filePath))
-        {
-            string[] lines = File.ReadAllLines(filePath);
+        stopwatch.Stop(); // Stop the timer
 
-            for (int i = 0; i < lines.Length; i += 2)
-            {
-                string reference = lines[i];
-                string text = lines[i + 1];
-                library.AddScripture(new Scripture(reference, text));
-            }
-        }
-        else
-        {
-            Console.WriteLine("Scripture file not found.");
-        }
+        Console.WriteLine("All words in the scripture are hidden. Memorization complete.");
+        Console.WriteLine($"Time elapsed: {stopwatch.Elapsed.TotalSeconds} seconds");
     }
 }

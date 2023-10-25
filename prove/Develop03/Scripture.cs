@@ -1,50 +1,39 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.IO;
 
+// Scripture class represents the full scripture with words and reference
 class Scripture
 {
-    private string reference;
-    private string text;
-    private List<string> words;
-    private int hiddenWordIndex;
+    private readonly Reference reference;
+    private readonly List<Word> words;
 
-    public Scripture(string reference, string text)
+    public Scripture(Reference reference, string text)
     {
         this.reference = reference;
-        this.text = text;
-        this.words = text.Split(' ').ToList();
-        this.hiddenWordIndex = 0; // Start with the first word
+        words = text.Split(' ').Select(word => new Word(word)).ToList();
     }
 
-    public void Display()
+    // Add the HideRandomWord method back to the Scripture class
+    public void HideRandomWord()
     {
-        Console.Clear();
-        Console.WriteLine(reference);
-
-        // Replace words with "___" for all words up to hiddenWordIndex
-        for (int i = 0; i < words.Count; i++)
+        var random = new Random();
+        int index;
+        do
         {
-            if (i < hiddenWordIndex)
-                Console.Write("___ ");
-            else
-                Console.Write(words[i] + " ");
-        }
-        Console.WriteLine(); // Move to the next line
-    }
+            index = random.Next(words.Count);
+        } while (words[index].Hidden);
 
-    public void HideNextWord()
-    {
-        if (hiddenWordIndex < words.Count)
-        {
-            hiddenWordIndex++;
-            Display();
-        }
+        words[index].Hide();
     }
 
     public bool AllWordsHidden()
     {
-        return hiddenWordIndex == words.Count;
+        return words.All(word => word.Hidden);
+    }
+
+    public string GetVisibleText()
+    {
+        return $"{reference.Text} {string.Join(" ", words.Select(w => w.Hidden ? "___" : w.Text))}";
     }
 }
