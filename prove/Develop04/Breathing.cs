@@ -6,35 +6,59 @@ class BreathingActivity : Activity
 {
     public BreathingActivity() : base("Breathing", "This activity will help you relax by walking your through breathing in and out slowly.\nClear your mind and focus on your breathing.")
     {
-     }
+    }
 
     public override void StartActivity(int duration)
     {
         for (int i = duration; i > 0; --i)
         {
             Console.Write("Breathe in ");
-           
-            // Countdown for "Breathe in"
-            for (int j = 5; j > 0; --j)
+
+            // Stretch Challenge #2 : Emoji-based animation for breathing in
+            List<String> animationBreathIn = new List<string>(1);
             {
-                Console.Write(j);
-                Thread.Sleep(1000);
-                Console.Write("\b  \b");
+                animationBreathIn.Add ("(-^-) 5" );
+                animationBreathIn.Add ("(^-^) 4" );
+                animationBreathIn.Add ("(-^-) 3" );
+                animationBreathIn.Add ("(^-^) 2" );
+                animationBreathIn.Add ("(-^-)  " );
+            }
+
+                     
+            
+            // Countdown and animation for "Breathe in" on the same line
+            foreach(String S in animationBreathIn)
+            {
+            
+            Console.Write(S);
+            Thread.Sleep(1000);
+            Console.Write("\b\b\b\b\b\b\b");
             }
             
+        
+        
             Console.WriteLine();
             Console.Write("Breathe out ");
 
-            
-            // Countdown for "Breathe out"
-            for (int k = 5; k > 0; --k)
+            List<String> animationBreathOut = new List<string>(1);
             {
-                
-                Console.Write(k);
-                Thread.Sleep(1000);
-                Console.Write("\b  \b");
+                animationBreathOut.Add ("(^-^) 5" );
+                animationBreathOut.Add ("(-^-) 4" );
+                animationBreathOut.Add ("(^-^) 3" );
+                animationBreathOut.Add ("(-^-) 2" );
+                animationBreathOut.Add ("(^-^)  " );
             }
-                Console.WriteLine();
+
+            // Countdown and animation for "Breathe in" on the same line
+            foreach(String S in animationBreathOut)
+            {
+            
+            Console.Write(S);
+            Thread.Sleep(1000);
+            Console.Write("\b\b\b\b\b\b\b");
+            }
+
+            Console.WriteLine();
         }
     }
 }

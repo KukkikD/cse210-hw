@@ -19,7 +19,7 @@ class Program
             switch (choice)
             {
                 case "1":
-                    Console.WriteLine("Welcome to the Breathing activity");
+                    Console.WriteLine("Welcome to the Breathing activity.");
                     Thread.Sleep(500);
                     BreathingActivity breathingActivity = new BreathingActivity();
                     Thread.Sleep(1000);
@@ -29,19 +29,21 @@ class Program
             
 
                 case "2":
-                    Console.Write("Enter the duration in seconds: ");
-                    int duration2 = int.Parse(Console.ReadLine());
+                    Console.WriteLine("Welcome to the Reflection activity.");
+                    Thread.Sleep(500);
                     ReflectionActivity reflectionActivity = new ReflectionActivity();
-                    reflectionActivity.Start(duration2);
-                    reflectionActivity.End(duration2);
+                    Thread.Sleep(1000);
+                    reflectionActivity.Start(0);
+                    reflectionActivity.End(0);
                     break;
 
                 case "3":
-                    Console.Write("Enter the duration in seconds: ");
-                    int duration3 = int.Parse(Console.ReadLine());
+                    Console.WriteLine("Welcome to the Listing activity.");
+                    Thread.Sleep(500);
                     ListingActivity listingActivity = new ListingActivity();
-                    listingActivity.Start(duration3);
-                    listingActivity.End(duration3);
+                    Thread.Sleep(1000);
+                    listingActivity.Start(0);
+                    listingActivity.End(0);
                     break;
 
                 case "4":
@@ -49,7 +51,7 @@ class Program
                     Environment.Exit(0);
                     break;
 
-                default:
+                default: // Stretch Challenge #1
                     Console.WriteLine("Invalid choice. Please select a valid option.");
                     break;
             }

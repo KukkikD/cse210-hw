@@ -5,32 +5,39 @@ using System.Threading;
 class ListingActivity : Activity
 {
     private string[] prompts = {
-        "Who are people that you appreciate?",
-        "What are your personal strengths?",
-        "Who are people that you have helped this week?",
-        "When have you felt inspired recently?",
-        "Who are some of your personal heroes?"
+        "-- Who are people that you appreciate? --",
+        "-- What are your personal strengths? --",
+        "-- Who are people that you have helped this week? --",
+        "-- When have you felt inspired recently? --",
+        "-- Who are some of your personal heroes? --"
     };
 
-    public ListingActivity() : base("Listing", "This activity will help you reflect on the positive aspects of your life.")
+    public ListingActivity() : base("Listing", "This activity will help you reflect on the good things in your life by having you list as many things as you can in a certain area.")
     {
     }
-
-    public override void Start(int duration)
+    public override void StartActivity(int duration)
     {
-        base.Start(duration);
         Random random = new Random();
         string prompt = prompts[random.Next(prompts.Length)];
+        Console.WriteLine("List as many responses you can do to the following propt:");
         Console.WriteLine(prompt);
-        Thread.Sleep(3000);
-        Console.WriteLine("Get ready to start listing...");
-        Thread.Sleep(1000);
-        int itemCount = 0;
+        // Countdown before questions
+        Console.Write("You may begin in  ");
+        for (int j = 4; j > 0; j--)
+        {
+            Console.Write(j);
+            Thread.Sleep(1000);
+            Console.Write("\b \b \b \b");
+        }
 
+        Console.WriteLine();
+        
+        int itemCount = 0;
         while (duration > 0)
         {
-            Console.Write("Enter an item (or press Enter to finish): ");
-            string item = Console.ReadLine();
+            Console.Write($"> ");
+            string item = Console.ReadLine(); 
+            
             if (string.IsNullOrWhiteSpace(item))
                 break;
 
@@ -38,7 +45,7 @@ class ListingActivity : Activity
             duration--;
         }
 
-        Console.WriteLine($"Total items listed: {itemCount}");
+        Console.WriteLine($"Your list {itemCount} items:");
         Thread.Sleep(2000);
     }
 }

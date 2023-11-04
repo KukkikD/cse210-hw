@@ -130,14 +130,14 @@ class BreathingActivity : Activity
 {
     for (int i = duration; i > 0; --i)
     {
-        // Stretch Challenge Animation for breathing in
+        // Emoji-based animation for breathing in
         List<String> animationBreathIn = new List<string>
         {
-            "(^ 3 ^))",
-            "(^  3  ))",
-            "(^ . ^))",
-            "(^ .  ))",
-            "(^ . ^))"
+            "😮",
+            "😯",
+            "😲",
+            "😵",
+            "😯"
         };
 
         int animationIndexIn = 0;
@@ -154,14 +154,14 @@ class BreathingActivity : Activity
         Console.WriteLine(); // Move to the next line after "Breathe in"
         Console.Write("Breathe out ");
 
-        // Stretch Challenge Animation for breathing out
+        // Emoji-based animation for breathing out
         List<String> animationBreathOut = new List<string>
         {
-            "(^ 1 ^))",
-            "(^  1  ))",
-            "(^ . ^))",
-            "(^ .  ))",
-            "(^ . ^))"
+            "😌",
+            "😴",
+            "😪",
+            "😴",
+            "😌"
         };
 
         int animationIndexOut = 0;
@@ -177,5 +177,4 @@ class BreathingActivity : Activity
 
         Console.WriteLine(); // Move to the next line after "Breathe out"
     }
-}
 }

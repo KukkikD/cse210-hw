@@ -7,11 +7,13 @@ class Activity
 {
     public string Name { get; protected set; }
     public string Description { get; protected set; }
+    
 
     public Activity(string name, string description)
     {
         Name = name;
         Description = description;
+     
     }
 
     public virtual void Start(int duration)
@@ -37,27 +39,35 @@ class Activity
 
     public virtual void End(int duration)
     {
-        Console.WriteLine($"Good job! You've completed the {Name} activity.");
-        List<String> aninationStrings = new List<string>(1);
-        aninationStrings.Add("|");
-        aninationStrings.Add("/");
-        aninationStrings.Add("-");
-        aninationStrings.Add("\\");
-        aninationStrings.Add("-");
-        aninationStrings.Add("|");
-        aninationStrings.Add("/");
-        aninationStrings.Add("-");
-        aninationStrings.Add("\\");
-        aninationStrings.Add("-");
+        Console.WriteLine("Well done!");
+        List<String> animationStrings = new List<string>(1);
+        animationStrings.Add("|");
+        animationStrings.Add("/");
+        animationStrings.Add("-");
+        animationStrings.Add("\\");
+        animationStrings.Add("-");
+        animationStrings.Add("|");
+        animationStrings.Add("/");
+        animationStrings.Add("-");
+        animationStrings.Add("\\");
+        animationStrings.Add("-");
       
 
-        foreach(String S in aninationStrings)
+        foreach (String S in animationStrings)
         {
             Console.Write(S);
             Thread.Sleep(300);
             Console.Write("\b \b");
         }
         
+        Console.WriteLine($"You've completed the {Name} activity.");
+
+        foreach (String S in animationStrings)
+        {
+            Console.Write(S);
+            Thread.Sleep(300);
+            Console.Write("\b \b");
+        }
     }
 
     public virtual void StartActivity(int duration)
