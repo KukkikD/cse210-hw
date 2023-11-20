@@ -1,0 +1,3 @@
+Run a Marathon:True:1:1000
+Read Scriptures:True:1:100
+Attend Temple:True:1:50:10
