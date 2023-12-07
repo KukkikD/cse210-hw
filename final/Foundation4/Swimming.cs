@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Threading;
 
 // Derived class for Swimming
 public class Swimming : Activity
@@ -12,25 +14,36 @@ public class Swimming : Activity
         this._laps = laps;
     }
 
-    // Override method to get distance for swimming
     public override double GetDistance()
     {
-        return _laps * 50 / 1000; // Convert laps to kilometers
+        return _laps * 50 / 1000.0; // Convert laps to kilometers
     }
 
-    // Override method to get speed for swimming
     public override double GetSpeed()
     {
-        return GetDistance() / _lengthMinutes * 60;
+        if (_lengthMinutes == 0)
+        {
+            return 0;
+        }
+
+        return GetDistance() / (_lengthMinutes / 60.0);
     }
 
-    // Override method to get pace for swimming
     public override double GetPace()
     {
+        if (GetDistance() == 0)
+        {
+            return 0;
+        }
+
         return _lengthMinutes / GetDistance();
     }
 
-    // Override method to get detailed summary for swimming
+    public override string GetSummary()
+    {
+        return $"{base.GetSummary()} - Swimming, Laps: {_laps}";
+    }
+
     protected override string GetDetailedSummary()
     {
         return $"Distance: {GetDistance():F1} km, Speed: {GetSpeed():F1} kph, Pace: {GetPace():F1} min per km";

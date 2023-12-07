@@ -7,126 +7,97 @@ class Program
 {
     static void Main(string[] args)
     {
-       // Create a list to store activities
-        List<Activity> activities = new List<Activity>();
+        ActivityTracker activityTracker = new ActivityTracker();
 
         while (true)
         {
             Console.WriteLine("Main Menu:");
-            Console.WriteLine("1. Select Activity");
-            Console.WriteLine("2. Save Activities");
-            Console.WriteLine("3. Load Activities");
-            Console.WriteLine("4. Exit");
+            Console.WriteLine("1. Add Activity");
+            Console.WriteLine("2. Display Activities");
+            Console.WriteLine("3. Save Activities to File");
+            Console.WriteLine("4. Load Activities from File");
+            Console.WriteLine("5. Exit");
 
-            Console.Write("Enter your choice (1-4): ");
+            Console.Write("Enter your choice (1-5): ");
             string choice = Console.ReadLine();
 
             switch (choice)
             {
                 case "1":
-                    SelectActivitySubMenu(activities);
+                    // Add Activity
+                    // Prompt the user to enter details for the specific activity type
+                    Console.WriteLine("Select Activity Type:");
+                    Console.WriteLine("1. Running");
+                    Console.WriteLine("2. Stationary Bicycle");
+                    Console.WriteLine("3. Swimming");
+                    Console.Write("Enter your choice (1-3): ");
+                    string activityTypeChoice = Console.ReadLine();
+
+                    // Add the selected activity to the tracker
+                    Activity newActivity = CreateActivityFromUserInput(activityTypeChoice);
+                    if (newActivity != null)
+                    {
+                        activityTracker.AddActivity(newActivity);
+                        Console.WriteLine("Activity added successfully.");
+                    }
                     break;
 
                 case "2":
-                    SaveActivitiesToFile("activities.txt", activities);
-                    Console.WriteLine("Activities saved to file.\n");
+                    // Display Activities
+                    activityTracker.DisplayActivities();
                     break;
 
                 case "3":
-                    LoadActivitiesFromFile("activities.txt", activities);
-                    Console.WriteLine("Activities loaded from file.\n");
-                    ViewActivitySummaries(activities); // Display loaded activities
+                    // Save Activities to File
+                    Console.Write("Enter the file name to save activities: ");
+                    string saveFileName = Console.ReadLine();
+                    activityTracker.SaveActivitiesToFile(saveFileName);
                     break;
 
                 case "4":
-                    Console.WriteLine("Exiting the program. Goodbye!");
-                    SaveActivitiesToFile("activities.txt", activities); // Save activities before exiting
-                    return;
+                    // Load Activities from File
+                    Console.Write("Enter the file name to load activities: ");
+                    string loadFileName = Console.ReadLine();
+                    activityTracker.LoadActivitiesFromFile(loadFileName);
+                    break;
+
+                case "5":
+                    // Exit
+                    Environment.Exit(0);
+                    break;
 
                 default:
-                    Console.WriteLine("Invalid choice. Please enter a number between 1 and 4.");
+                    Console.WriteLine("Invalid choice. Please try again.");
                     break;
             }
-
-            Thread.Sleep(1000);
         }
     }
 
-    static void SelectActivitySubMenu(List<Activity> activities)
+    // Function to create an activity based on user input
+    static Activity CreateActivityFromUserInput(string activityTypeChoice)
     {
-        while (true)
+        switch (activityTypeChoice)
         {
-            Console.WriteLine("Activity Menu:");
-            Console.WriteLine("1. Running");
-            Console.WriteLine("2. Swimming");
-            Console.WriteLine("3. Cycling");
-            Console.WriteLine("4. Exit");
+            case "1":
+                // Running
+                return CreateRunningActivity();
 
-            Console.Write("Enter your choice (1-4): ");
-            string choice = Console.ReadLine();
+            case "2":
+                // Stationary Bicycle
+                return CreateStationaryBicycleActivity();
 
-            switch (choice)
-            {
-                case "1":
-                    LogRunningActivity(activities);
-                    break;
+            case "3":
+                // Swimming
+                return CreateSwimmingActivity();
 
-                case "2":
-                    LogSwimmingActivity(activities);
-                    break;
-
-                case "3":
-                    LogStationaryBicycleActivity(activities);
-                    break;
-
-                case "4":
-                    Console.WriteLine("Returning to main menu.");
-                    return;
-
-                default:
-                    Console.WriteLine("Invalid choice. Please enter a number between 1 and 4.");
-                    break;
-            }
-
-            // Introduce a delay of 1000 milliseconds (1 second)
-            Thread.Sleep(1000);
+            default:
+                Console.WriteLine("Invalid activity type choice.");
+                return null;
         }
     }
 
-
-    static void SaveActivitiesToFile(string fileName, List<Activity> activities)
-    {
-        using (StreamWriter writer = new StreamWriter(fileName))
-        {
-            foreach (var activity in activities)
-            {
-                writer.WriteLine(activity.GetSummary());
-            }
-        }
-    }
-
-    static void LoadActivitiesFromFile(string fileName, List<Activity> activities)
-    {
-        activities.Clear(); // Clear existing activities before loading
-
-        if (File.Exists(fileName))
-        {
-            using (StreamReader reader = new StreamReader(fileName))
-            {
-                while (!reader.EndOfStream)
-                {
-                    string line = reader.ReadLine();
-                    // Add logic to parse the line and create Activity objects if needed
-                    // For simplicity, assuming each line in the file is a summary string
-                    // and creating a new Running activity with default values
-                    activities.Add(new Running(DateTime.Now, 0, 0));
-                }
-            }
-        }
-    }
-
-    // Function to log a running activity
-    static void LogRunningActivity(List<Activity> activities)
+    // Function to create a Running activity based on user input
+    static Activity CreateRunningActivity()
     {
         Console.Write("Enter the date (MM/DD/YYYY): ");
         DateTime date = DateTime.Parse(Console.ReadLine());
@@ -137,14 +108,11 @@ class Program
         Console.Write("Enter the distance in miles: ");
         double distance = double.Parse(Console.ReadLine());
 
-        Running runningActivity = new Running(date, lengthMinutes, distance);
-        activities.Add(runningActivity);
-
-        Console.WriteLine("Running activity logged successfully!\n");
+        return new Running(date, lengthMinutes, distance);
     }
 
-    // Function to log a stationary bicycle activity
-    static void LogStationaryBicycleActivity(List<Activity> activities)
+    // Function to create a Stationary Bicycle activity based on user input
+    static Activity CreateStationaryBicycleActivity()
     {
         Console.Write("Enter the date (MM/DD/YYYY): ");
         DateTime date = DateTime.Parse(Console.ReadLine());
@@ -155,14 +123,11 @@ class Program
         Console.Write("Enter the speed in kph: ");
         double speed = double.Parse(Console.ReadLine());
 
-        StationaryBicycle bicycleActivity = new StationaryBicycle(date, lengthMinutes, speed);
-        activities.Add(bicycleActivity);
-
-        Console.WriteLine("Stationary Bicycle activity logged successfully!\n");
+        return new StationaryBicycle(date, lengthMinutes, speed);
     }
 
-    // Function to log a swimming activity
-    static void LogSwimmingActivity(List<Activity> activities)
+    // Function to create a Swimming activity based on user input
+    static Activity CreateSwimmingActivity()
     {
         Console.Write("Enter the date (MM/DD/YYYY): ");
         DateTime date = DateTime.Parse(Console.ReadLine());
@@ -173,28 +138,6 @@ class Program
         Console.Write("Enter the number of laps: ");
         int laps = int.Parse(Console.ReadLine());
 
-        Swimming swimmingActivity = new Swimming(date, lengthMinutes, laps);
-        activities.Add(swimmingActivity);
-
-        Console.WriteLine("Swimming activity logged successfully!\n");
-    }
-
-    // Function to view summaries of all logged activities
-    static void ViewActivitySummaries(List<Activity> activities)
-    {
-        if (activities.Count == 0)
-        {
-            Console.WriteLine("No activities logged yet.\n");
-            return;
-        }
-
-        Console.WriteLine("Activity Summaries:");
-
-        foreach (var activity in activities)
-        {
-            Console.WriteLine(activity.GetSummary());
-        }
-
-        Console.WriteLine();
+        return new Swimming(date, lengthMinutes, laps);
     }
 }

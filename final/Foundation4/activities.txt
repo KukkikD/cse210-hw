@@ -1,1 +1,1 @@
-12/7/2023 Running (0 min): Distance 0.0 miles, Speed NaN mph, Pace: NaN min per mile
+2/3/2023 Running (30 min): Distance 2.0 miles, Speed 4.0 mph, Pace: 15.0 min per mile

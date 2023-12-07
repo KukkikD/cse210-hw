@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Threading;
 
 // Derived class for Running
 public class Running : Activity
@@ -12,27 +14,38 @@ public class Running : Activity
         this._distance = distance;
     }
 
-    // Override method to get distance for running
     public override double GetDistance()
     {
         return _distance;
     }
 
-    // Override method to get speed for running
     public override double GetSpeed()
     {
-        return _distance / _lengthMinutes * 60;
+        if (_lengthMinutes == 0)
+        {
+            return 0;
+        }
+
+        return _distance / (_lengthMinutes / 60.0);
     }
 
-    // Override method to get pace for running
     public override double GetPace()
     {
-        return _lengthMinutes / _distance;
+        if (GetSpeed() == 0)
+        {
+            return 0;
+        }
+
+        return 1 / GetSpeed() * 60; // Pace in minutes per mile
     }
 
-    // Override method to get detailed summary for running
+    public override string GetSummary()
+    {
+        return $"{base.GetSummary()} - Running, Distance: {_distance:F1} miles";
+    }
+
     protected override string GetDetailedSummary()
     {
-        return $"Distance {_distance:F1} miles, Speed {GetSpeed():F1} mph, Pace: {GetPace():F1} min per mile";
+        return $"Distance: {_distance:F1} km, Speed: {GetSpeed():F1} kph, Pace: {GetPace():F1} min per km";
     }
 }

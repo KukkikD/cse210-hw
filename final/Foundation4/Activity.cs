@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Threading;
 
 // Base Activity class
 public class Activity
@@ -32,14 +34,23 @@ public class Activity
     }
 
     // Method to get a summary string
-    public string GetSummary()
+    public virtual string GetSummary()
     {
-        return $"{_date.ToShortDateString()} {GetType().Name} ({_lengthMinutes} min): {GetDetailedSummary()}";
+        return $"{_date.ToShortDateString()} {_lengthMinutes} min";
     }
 
     // Virtual method to get detailed summary (to be overridden in derived classes)
     protected virtual string GetDetailedSummary()
     {
         return "";
+    }
+
+    // Factory method to create an activity object from a summary string
+    public static Activity CreateActivityFromSummary(string summary)
+    {
+        // The logic to parse the summary and create the appropriate Activity instance
+        // Implement this based on the actual format of the GetSummary method
+        // Return the created Activity object, or null if parsing fails
+        return null;
     }
 }

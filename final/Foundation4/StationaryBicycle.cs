@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Threading;
 
 // Derived class for Stationary Bicycles
 public class StationaryBicycle : Activity
@@ -12,19 +14,31 @@ public class StationaryBicycle : Activity
         this._speed = speed;
     }
 
-    // Override method to get speed for stationary bicycles
+    public override double GetDistance()
+    {
+        return _speed * (_lengthMinutes / 60.0);
+    }
+
     public override double GetSpeed()
     {
         return _speed;
     }
 
-    // Override method to get pace for stationary bicycles
     public override double GetPace()
     {
-        return 60 / _speed;
+        if (_speed == 0)
+        {
+            return 0;
+        }
+
+        return 1 / _speed * 60; // Pace in minutes per km
     }
 
-    // Override method to get detailed summary for stationary bicycles
+    public override string GetSummary()
+    {
+        return $"{base.GetSummary()} - Stationary Bicycle, Speed: {_speed:F1} kph";
+    }
+
     protected override string GetDetailedSummary()
     {
         return $"Speed: {_speed:F1} kph, Pace: {GetPace():F1} min per km";
